@@ -4,4 +4,4 @@ import type { ISKU } from "./types/attributes";
 export {
     SKU,
     ISKU
-}
+};

@@ -1,29 +1,9 @@
-import { getAttributePrefix, getFilteredObjectEntries, isAustralium, isElevated, isFestive, isUncraftable, isUntradable, reverseKey } from "../lib/utils";
-import { AttributeKey, ItemQualityName } from "../resources/enums";
-import type { AttributePrefix, ISKU, UnitAttributes } from "../types/attributes";
 import StringBuilder from "./builder";
+import { AttributeKey, ItemQuality } from "../resources/enums";
+import type { AttributePrefix, ISKU } from "../types/attributes";
+import { combineAttributes, getFilteredObjectEntries, isAustralium, isElevated, isFestive, isUncraftable, isUntradable, reverseKey } from "../lib/utils";
 
-const ATTRIBUTES: Readonly<UnitAttributes> = Object.freeze({
-    defindex: 0,
-    quality: 0,
-    craftable: true,
-    tradable: true,
-    killstreak: 0,
-    australium: false,
-    effect: null,
-    festive: false,
-    paintkit: null,
-    wear: null,
-    elevated: false,
-    craftnumber: null,
-    crateseries: null,
-    target: null,
-    output: null,
-    outputQuality: null,
-    paint: null
-});
-
-const inOrder: Readonly<ISKU> = Object.freeze({
+const ATTRIBUTES: Readonly<ISKU> = Object.freeze({
     defindex: 0,
     quality: 0,
     effect: null,
@@ -64,14 +44,14 @@ export default class SKU {
      * @param values 
      * @returns The SKU object as a string.
      */
-    static stringify(values: Partial<ISKU>): string {
+    static stringify(object: Partial<ISKU>): string {
         const builder = new StringBuilder();
 
-        const attributes = SKU.defaults(values, inOrder);
+        const attributes = SKU.prettify(object, ATTRIBUTES);
 
         for(const [key, value] of getFilteredObjectEntries(attributes)) {
             if (Object.prototype.hasOwnProperty.call(CHARACTERS, key)) {
-                const attribute = getAttributePrefix(key, value, CHARACTERS);
+                const attribute = combineAttributes(key, value, CHARACTERS);
 
                 builder.append(attribute);
 
@@ -93,7 +73,7 @@ export default class SKU {
             }
 
             if (isElevated(key, value)) {
-                builder.append(ItemQualityName.Strange);
+                builder.append(ItemQuality.Strange);
                 
                 continue;
             }
@@ -111,13 +91,13 @@ export default class SKU {
      * @param sku 
      * @returns A new SKU instance.
      */
-    static parse(text: string): UnitAttributes {
+    static parse(text: string): ISKU {
         const builder = new StringBuilder(text);
 
         const defindex = builder.removeInt();
         const quality = builder.removeInt();
 
-        const attributes: Partial<UnitAttributes> = { defindex, quality };
+        const attributes: Partial<ISKU> = { defindex, quality };
 
         for (const attribute of builder.get()) {
             if (attribute === AttributeKey.Australium || attribute === AttributeKey.Festive) {
@@ -144,15 +124,17 @@ export default class SKU {
             }
         }
 
-        return SKU.defaults(attributes, ATTRIBUTES);
+        return SKU.prettify(attributes, ATTRIBUTES);
     }
 
-    private static prettify(attributes: Partial<UnitAttributes>) {
-        return SKU.defaults(attributes, ATTRIBUTES);
-    }
-
-    private static defaults(target: Partial<UnitAttributes>, source: Readonly<UnitAttributes>): UnitAttributes {
-        const attributes: Partial<UnitAttributes> = Object.create(Object.prototype);
+    /**
+     * 
+     * @param target 
+     * @param source 
+     * @returns 
+     */
+    private static prettify(target: Partial<ISKU>, source: Readonly<ISKU>) {
+        const attributes: Partial<ISKU> = Object.create(Object.prototype);
 
         for (const key of Object.keys(source)) {
             if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -160,6 +142,6 @@ export default class SKU {
             }
         }
 
-        return attributes as UnitAttributes;
+        return attributes as ISKU;
     }
 }

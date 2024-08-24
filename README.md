@@ -1,6 +1,6 @@
 # tf-sku
 
-A static Node.js class for formatting Team Fortress 2 items to strings or JSON objects.
+A static Node.js class for formatting Team Fortress 2 items into strings or JSON objects.
 
 [![npm version](https://img.shields.io/npm/v/@mann-conomy/tf-sku?style=flat-square&logo=npm)](https://npmjs.com/package/@mann-conomy/tf-sku)
 [![npm downloads](https://img.shields.io/npm/d18m/@mann-conomy/tf-sku?style=flat-square&logo=npm)](https://npmjs.com/package/@mann-conomy/tf-sku)
@@ -33,73 +33,68 @@ $ yarn test
 ```
 
 ## Examples
-Parsing UTF-16 encoded language files from the Team Fortress 2 game client into JSON objects.
 
-Formatting a Team Fortress 2 item into a string.
+Formatting Team Fortress 2 item objects into concise strings that captures their unique attributes.
 
 ```js
 import { SKU } from "@mann-conomy/tf-sku";
 
-(async () => {
-    try {
-        // Professional Festivized Australium Medi Gun
-        const item = {
-            defindex: 211,
-            quality: 11,
-            australium: true,
-            killstreak: 3, 
-            festive: true
-        }
-
-        // Stringify the item object
-        const sku = SKU.stringify(item);
-
-        console.log(sku); // 211;11;australium;kt-3;festive
-    } catch (error) {
-        console.error("Error", error.message);
+try {
+    // Object representation of a Professional Festivized Australium Medi Gun
+    const item = {
+        defindex: 211,
+        quality: 11,
+        australium: true,
+        killstreak: 3, 
+        festive: true
     }
-})();
+
+    // Convert the item object into a SKU string
+    const sku = SKU.stringify(item);
+
+    console.log(sku); // 211;11;australium;kt-3;festive
+} catch (error) {
+    console.error("Error creating SKU string", error.message);
+}
 ```
 
-Formatting a Team Fortress 2 item into a string.
+Converting strings into structured objects that represent the attributes of Team Fortress 2 items.
 
 ```js
 import { SKU } from "@mann-conomy/tf-sku";
 
-(async () => {
-    try {
-        // Strange Purple Energy Villain's Veil
-        const sku = "393;5;u10;strange";
+try {
+    // String representation of a Strange Purple Energy Villain's Veil
+    const sku = "393;5;u10;strange";
 
-        // Parse the string into an object
-        const item = SKU.parse(sku);
+    // Parse the SKU string into an item object
+    const item = SKU.parse(sku);
 
-        console.log(item);
-        /*
-        {
-            defindex: 393,
-            quality: 5,
-            craftable: true,
-            tradable: true,
-            killstreak: 3,
-            australium: true,
-            effect: 10,
-            festive: true,
-            paintkit: null,
-            wear: null,
-            elevated: true,
-            craftnumber: null,
-            crateseries: null,
-            target: null,
-            output: null,
-            outputQuality: null,
-            paint: null
-        }
-        */
-    } catch (error) {
-        console.error("Error", error.message);
+    console.log(item);
+    /*
+    {
+        defindex: 393,
+        quality: 5,
+        effect: 10,
+        australium: false,
+        craftable: true,
+        tradable: true,
+        wear: null,
+        paintkit: null,
+        elevated: true,
+        killstreak: 0,
+        target: null,
+        festive: false,
+        craftnumber: null,
+        crateseries: null,
+        output: null,
+        outputQuality: null,
+        paint: null
     }
-})();
+    */
+} catch (error) {
+    console.error("Error parsing SKU string", error.message);
+}
 ```
 
 Some more examples are available in the [examples](https://github.com/Mann-Conomy/tf-sku/tree/main/examples) and [test](https://github.com/Mann-Conomy/tf-sku/tree/main/test) directories.

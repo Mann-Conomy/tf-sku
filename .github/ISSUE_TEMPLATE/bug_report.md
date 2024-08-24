@@ -26,24 +26,28 @@ A clear and concise description of what you expected to happen.
 A clear and concise description of what happens.
 
 ## Minimal reproducible example
-Calling `find()` on a new `UnusualEffect` instance returns "Error processing effect...".
+Calling `stringify()` on a `SKU` object returns "Error creating SKU string...".
 
 ```js
-import { UnusualEffect } from "@mann-conomy/tf-sku";
+import { SKU } from "@mann-conomy/tf-sku";
 
-(async () => {
-    try {
-        const effect = new UnusualEffect({ name: "Burning Flames" });
-
-        if (effect.eval()) {
-            const { id, name } = effect.find();
-
-            console.log(id, name);
-        }
-    } catch (error) {
-        console.error("Error processing effect", error.message);
+try {
+    // Object representation of a Professional Festivized Australium Medi Gun
+    const item = {
+        defindex: 211,
+        quality: 11,
+        australium: true,
+        killstreak: 3, 
+        festive: true
     }
-})();
+
+    // Convert the item object into a SKU string
+    const sku = SKU.stringify(item);
+
+    console.log(sku); // 211;11;australium;kt-3;festive
+} catch (error) {
+    console.error("Error creating SKU string", error.message);
+}
 ```
 
 ## Environment

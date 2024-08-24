@@ -1,7 +1,7 @@
 {
   "name": "@mann-conomy/tf-sku",
   "version": "1.0.0",
-  "description": "A static Node.js class for formatting Team Fortress 2 items to strings or JSON objects.",
+  "description": "A static Node.js class for formatting Team Fortress 2 items into strings or JSON objects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

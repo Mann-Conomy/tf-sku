@@ -1,8 +1,9 @@
 import SKU from "../src/classes/sku";
+import type { ISKU } from "../src/types/attributes";
 
 try {
-    // Professional Festivized Australium Medi Gun
-    const item = {
+    // Object representation of a Professional Festivized Australium Medi Gun
+    const item: Partial<ISKU> = {
         defindex: 211,
         quality: 11,
         australium: true,
@@ -10,10 +11,12 @@ try {
         festive: true
     }
 
-    // Stringify the item object
+    // Convert the item object into a SKU string
     const sku = SKU.stringify(item);
 
     console.log(sku); // 211;11;australium;kt-3;festive
-} catch (error) {
-    console.error();
+} catch (error: unknown) {
+    if (error instanceof Error) {
+        console.error("Error creating SKU string", error.message);
+    }
 }

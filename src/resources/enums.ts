@@ -1,19 +1,4 @@
 export enum ItemQuality {
-    Normal = 0,
-    Genuine = 1,
-    Vintage = 3,
-    Unusual = 5,
-    Unique = 6,
-    Community = 7,
-    Valve = 8,
-    Selfmade = 9,
-    Strange = 11,
-    Haunted = 13,
-    Collectors = 14,
-    Decorated = 15
-}
-
-export enum ItemQualityName {
     Normal = "normal",
     Genuine = "genuine",
     Vintage = "vintage",

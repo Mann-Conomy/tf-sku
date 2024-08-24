@@ -19,19 +19,18 @@ Provide a detailed description of the proposed feature or improvement. If applic
 
 ## Example Usage
 
-If applicable, provide an example of how the new feature or improvement would be configured in an effect class.
+If applicable, provide an example of how the new feature or improvement would be configured in the SKU class.
 
 ```js
-import { createProviderUrl } from "../lib/utils";
-import type { ImageProvider, ImageSize } from "../types/image";
+import { eval } from "../lib/utils";
+import type { ISKU } from "../types/attributes";
 
-export default class UnusualEffect extends ParticleEffect {
+export default class SKU {
     ...
-    async toImage(provider: ImageProvider, size: ImageSize): string {
-        const url = createProviderUrl(provider, size);
-        const response = await fetch(url);
+    eval(object: Partial<ISKU>): boolean {
+        const { defindex, quality } = object;
 
-        return await response.text();
+        return eval(defindex, quality);
     }
 }
 ```

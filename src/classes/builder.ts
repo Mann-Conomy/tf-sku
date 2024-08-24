@@ -1,8 +1,11 @@
 import { StringSeparator } from "../resources/enums";
 
+/**
+ * 
+ */
 export default class StringBuilder {
-    private readonly values: string[]
-    private readonly separator: string
+    private readonly values: string[];
+    private readonly separator: string;
 
     /**
      * Creates a new instance of StringBuilder.
@@ -35,6 +38,34 @@ export default class StringBuilder {
      * 
      * @returns 
      */
+    first(): string {
+        if (this.isEmpty()) {
+            throw new RangeError("");
+        }
+
+        const [value] = this.values;
+
+        if (value === undefined) {
+            throw new RangeError("The last Stack element is undefined.");
+        }
+
+        return value;
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    firstInt(): number {
+        const value = this.first();
+
+        return parseInt(value);
+    }
+
+    /**
+     * 
+     * @returns 
+     */
     remove(): string {
         const value = this.values.shift();
 
@@ -42,21 +73,23 @@ export default class StringBuilder {
             return value;
         }
 
-        throw new RangeError();
+        throw new RangeError("");
     }
 
-    // Should not throw, but only remove the first value it is a valid number
-    // If not it should return a number?
+    /**
+     * 
+     * @returns 
+     */
     removeInt(): number {
-        const value = this.remove();
+        const value = this.firstInt();
 
-        const yikes = parseInt(value);
-
-        if (isNaN(yikes)) {
-            throw new TypeError();
+        if (isNaN(value)) {
+            throw new TypeError("The first attribute of the string is not a valid integer.");
         }
 
-        return yikes
+        const number = this.remove();
+
+        return parseInt(number);
     }
 
     /**
@@ -68,11 +101,19 @@ export default class StringBuilder {
     }
 
     /**
+     * 
+     * @returns 
+     */
+    isEmpty(): boolean {
+        return this.size() === 0;
+    }
+
+    /**
      * Converts the values of the StringBuilder to a single concatenated string, separated by the defined separator.
      * @returns A concatenated string of all values in the StringBuilder, separated by the defined separator.
      */
     toString(): string {
-        if (this.size() === 0) {
+        if (this.isEmpty()) {
             throw new RangeError("");
         }
 
