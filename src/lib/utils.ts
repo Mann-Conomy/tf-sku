@@ -1,6 +1,16 @@
 import StringBuilder from "../classes/builder";
-import type { ISKU } from "../types/attributes";
 import { AttributeKey } from "../resources/enums";
+import type { AttributeValue, ISKU } from "../types/attributes";
+
+/**
+ * Filters an object entry based on the key and value.
+ * @param key The key of the entry being evaluated.
+ * @param value The value of the entry being evaluated.
+ * @returns True if the entry should be included in the filtered results, otherwise false.
+ */
+export function filterObjectEntry(key: string, value: AttributeValue): boolean {
+    return !(value === null || (value === 0 && key === AttributeKey.Killstreak));
+}
 
 /**
  * Filters and maps the entries of a given SKU object into an array of strings.
@@ -10,7 +20,9 @@ import { AttributeKey } from "../resources/enums";
 export function getFilteredObjectEntries(object: ISKU): [string, string][] {
     const entries = Object.entries(object);
 
-    const attributes = entries.filter((entry) => !(entry.includes(null, 1) || entry.includes(0, 1)));
+    const attributes = entries.filter(([key, value]) => {
+        return filterObjectEntry(key, value);
+    });
 
     return attributes.map(([key, value]) => [key, String(value)]);
 }
@@ -27,8 +39,7 @@ export function join(...values: string[]) {
 }
 
 /**
- * Combines the prefix associated with a given attribute key from the record, and concatenates 
- * it with the provided value. If the key does not exist in the record, an error is thrown.
+ * Combines the prefix associated with a given attribute key from the record and concatenates it with the provided value.
  * @param key The attribute key to look up in the SKU object.
  * @param value The value to concatenate with the prefix.
  * @param object The SKU object containing key-value pairs where the key is the attribute and the value is its corresponding prefix.
@@ -49,7 +60,7 @@ export function combineAttributes(key: string, value: string, object: Record<str
  * Reverses the key by prefixing it with "un" if the key matches specific attribute keys.
  * @param key The attribute key to be reversed.
  * @returns The reversed key with the "un" prefix.
- * @throws A error if the key does not match `AttributeKey.Craftable` or `AttributeKey.Tradable`.
+ * @throws An error if the key does not match `craftable` or `tradable`.
  */
 export function reverseKey(key: string): string {
     if (!(key === AttributeKey.Craftable || key === AttributeKey.Tradable)) {
@@ -62,7 +73,7 @@ export function reverseKey(key: string): string {
 /**
  * Checks if the given key and value represent an australium weapon.
  * @param key The key to check against an australium weapon's attribute key.
- * @param value The value to check if the weapon is marked as Australium.
+ * @param value The value should be true if the item is an australium weapon, otherwise false.
  * @returns True if the item is an australium weapon, otherwise false.
  */
 export function isAustralium(key: string, value: string): boolean {
@@ -71,8 +82,8 @@ export function isAustralium(key: string, value: string): boolean {
 
 /**
  * Checks if the given key and value represent a festive weapon.
- * @param key The key to check against an festive weapon's attribute key.
- * @param value 
+ * @param key The key to check against a festive weapon's attribute key.
+ * @param value The value should be true if the item is a festive weapon, otherwise false.
  * @returns True if the item is a festive weapon, otherwise false.
  */
 export function isFestive(key: string, value: string): boolean {
@@ -81,9 +92,9 @@ export function isFestive(key: string, value: string): boolean {
 
 /**
  * Checks if the given key and value represent a untradable item.
- * @param key The key to check against a item's untradable key.
- * @param value 
- * @returns True if the item is an Australium weapon, otherwise false.
+ * @param key The key to check against an item's untradable key.
+ * @param value The value should be false if the item is untradable, otherwise true.
+ * @returns True if the item is an untradable weapon, otherwise false.
  */
 export function isUntradable(key: string, value: string): boolean {
     return key === AttributeKey.Tradable && value === String(false);
@@ -91,8 +102,8 @@ export function isUntradable(key: string, value: string): boolean {
 
 /**
  * Checks if the given key and value represent a uncraftable item.
- * @param key The key to check against a item's uncraftable key.
- * @param value 
+ * @param key The key to check against an item's uncraftable key.
+ * @param value The value should be false if the item is uncraftable, otherwise true.
  * @returns True if the item is uncraftable, otherwise false.
  */
 export function isUncraftable(key: string, value: string): boolean {
@@ -100,9 +111,9 @@ export function isUncraftable(key: string, value: string): boolean {
 }
 
 /**
- * Checks if the given key and value represent an australium weapon.
- * @param key The key to check against a item's elevated key.
- * @param value 
+ * Checks if the given key and value represent an elevated item.
+ * @param key The key to check against an item's elevated key.
+ * @param value The value should be true if the item quality is elevated, otherwise true.
  * @returns True if the item has an elevated quality, otherwise false.
  */
 export function isElevated(key: string, value: string): boolean {

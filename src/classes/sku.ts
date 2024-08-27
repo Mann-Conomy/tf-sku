@@ -36,13 +36,32 @@ const CHARACTERS: Readonly<AttributePrefix> = Object.freeze({
 });
 
 /**
- * 
+ * A static class for formatting Team Fortress 2 items into strings or JSON objects.
  */
 export default class SKU {
     /**
-     * Converts a SKU object to a SKU string.
-     * @param values 
-     * @returns The SKU object as a string.
+     * Prettifies the `target` object by filling in any undefined properties with values from the `source` object.
+     * @param target The object to be prettified. If a property is defined in the target, it is preserved.
+     * @param source The source object used as a fallback for undefined properties in the target.
+     * @returns A new object containing properties from the target where available or from the source where the target properties are undefined.
+     */
+    private static prettify(target: Partial<ISKU>, source: Readonly<ISKU>) {
+        const attributes: Partial<ISKU> = Object.create(Object.prototype);
+
+        for (const key of Object.keys(source)) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                attributes[key] = target[key] !== undefined ? target[key] : source[key];
+            }
+        }
+
+        return attributes as ISKU;
+    }
+
+    /**
+     * Converts an `ISKU` object into a stock-keeping unit (SKU) string.
+     * @param object The SKU object to be converted to a string.
+     * @throws An error if the `ISKU` object cannot be converted into a valid SKU string.
+     * @returns The SKU object serialized as a string.
      */
     static stringify(object: Partial<ISKU>): string {
         const builder = new StringBuilder();
@@ -87,9 +106,10 @@ export default class SKU {
     }
 
     /**
-     * Parse a new SKU object from a string.
-     * @param sku 
-     * @returns A new SKU instance.
+     * Parses a stock-keeping unit (SKU) string and converts it into an `ISKU` object.
+     * @param text The SKU string to be parsed.
+     * @throws An error if the SKU string cannot be parsed into a valid `ISKU` object.
+     * @returns A new `ISKU` object created from the parsed SKU string.
      */
     static parse(text: string): ISKU {
         const builder = new StringBuilder(text);
@@ -99,7 +119,7 @@ export default class SKU {
 
         const attributes: Partial<ISKU> = { defindex, quality };
 
-        for (const attribute of builder.get()) {
+        for (const attribute of builder.getAllStrings()) {
             if (attribute === AttributeKey.Australium || attribute === AttributeKey.Festive) {
                 attributes[attribute] = true;
             }
@@ -125,23 +145,5 @@ export default class SKU {
         }
 
         return SKU.prettify(attributes, ATTRIBUTES);
-    }
-
-    /**
-     * 
-     * @param target 
-     * @param source 
-     * @returns 
-     */
-    private static prettify(target: Partial<ISKU>, source: Readonly<ISKU>) {
-        const attributes: Partial<ISKU> = Object.create(Object.prototype);
-
-        for (const key of Object.keys(source)) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-                attributes[key] = target[key] !== undefined ? target[key] : source[key];
-            }
-        }
-
-        return attributes as ISKU;
     }
 }
