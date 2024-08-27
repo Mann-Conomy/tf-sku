@@ -2,9 +2,9 @@ import { describe, expect, test } from "@jest/globals";
 import SKU from "../src/classes/sku";
 
 describe("SKU.stringify()", () => {
-    test("should return the Strange Purple Energy Villain's Veil as SKU string", () => {
+    test("should return the Strange Purple Energy Villain's Veil as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 393,
             quality: 5,
             effect: 10, 
@@ -12,15 +12,15 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("393;5;u10;strange");
     });
 
-    test("should return the Professional Festivized Australium Medi Gun as SKU string", () => {
+    test("should return the Professional Festivized Australium Medi Gun as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 211,
             quality: 11,
             australium: true,
@@ -29,15 +29,15 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("211;11;australium;kt-3;festive");
     });
 
-    test("should return the Conniver's Kunai Chemistry Set as SKU string", () => {
+    test("should return the Conniver's Kunai Chemistry Set as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 20006,
             quality: 6,
             output: 356,
@@ -45,15 +45,15 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("20006;6;od-356;oq-14");
     });
 
-    test("should return the Hot Pacific Peacemaker War Paint (Well-Worn) as SKU string", () => {
+    test("should return the Hot Pacific Peacemaker War Paint (Well-Worn) as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 17419,
             quality: 15,
             effect: 701,
@@ -62,15 +62,15 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("17419;15;u701;w4;pk419");
     });
 
-    test("should return the Taunt: Conga Unusualifier as SKU string", () => {
+    test("should return the Taunt: Conga Unusualifier as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 9258,
             quality: 5,
             craftable: false,
@@ -78,30 +78,30 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("9258;5;uncraftable;td-1118");
     });
 
-    test("should return the Mann Co. Supply Munition #83 as SKU string", () => {
+    test("should return the Mann Co. Supply Munition #83 as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 9258,
             quality: 6,
             crateseries: 83
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("9258;6;c83");
     });
 
-    test("should return the Professional Axtinguisher Kit Fabricator as SKU string", () => {
+    test("should return the Professional Axtinguisher Kit Fabricator as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 20003,
             quality: 6,
             killstreak: 3,
@@ -111,33 +111,36 @@ describe("SKU.stringify()", () => {
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("20003;6;kt-3;td-38;od-6526;oq-6");
     });
 
-    test("should return the #67 Bruiser's Bandanna as SKU string", () => {
+    test("should return the #67 Bruiser's Bandanna as a SKU string", () => {
         // Arrange
-        const values = {
+        const item = {
             defindex: 30397,
             quality: 6,
             craftnumber: 67
         }
 
         // Act
-        const result = SKU.stringify(values);
+        const result = SKU.stringify(item);
 
         // Assert
         expect(result).toBe("30397;6;n67");
     });
 
-    test("should throw if the SKU object is empty", () => {
+    test("should return the default SKU string if the object is empty", () => {
         // Arrange
         const empty = Object.create(Object.prototype);
 
+        // Act
+        const sku = SKU.stringify(empty);
+
         // Act and assert
-        expect(() => SKU.stringify(empty)).toThrow(RangeError);
+        expect(sku).toBe("0;0");
     });
 });
 

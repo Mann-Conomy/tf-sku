@@ -50,13 +50,13 @@ describe("size()", () => {
     });
 });
 
-describe("get()", () => {
+describe("getAllStrings()", () => {
     test("should return zero elements when the StringBuilder is empty", () => {
         // Arrange
         const builder = new StringBuilder();
 
         // Act
-        const result = builder.get();
+        const result = builder.getAllStrings();
 
         // Assert
         expect(result.length).toBe(0);
@@ -68,7 +68,7 @@ describe("get()", () => {
         const builder = new StringBuilder(sku);
 
         // Act
-        const result = builder.get();
+        const result = builder.getAllStrings();
 
         // Assert
         expect(result.length).toBe(4);
@@ -80,7 +80,7 @@ describe("get()", () => {
         const builder = new StringBuilder(values);
 
         // Act
-        const result = builder.get();
+        const result = builder.getAllStrings();
 
         // Assert
         expect(result.length).toBe(values.length);
@@ -88,7 +88,7 @@ describe("get()", () => {
 });
 
 describe("toString()", () => {
-    test("should return the orginal string if no seperator characters are present", () => {
+    test("should return the original string if no seperator characters are present", () => {
         // Arrange
         const text = "Spellbook Magazine";
         const builder = new StringBuilder(text);
