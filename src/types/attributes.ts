@@ -1,5 +1,11 @@
+/**
+ * Represents a value that can be used for item attributes.
+ */
 export type AttributeValue = string | number | boolean | null;
 
+/**
+ * Represents the stock-keeping unit (SKU) of an item, detailing various attributes.
+ */
 export interface ISKU extends Record<string, AttributeValue> {
     defindex: number;
     quality: number;
@@ -20,6 +26,9 @@ export interface ISKU extends Record<string, AttributeValue> {
     paint: number | null;
 }
 
+/**
+ * Represents the prefix mapping for various attributes.
+ */
 export interface AttributePrefix extends Record<string, string> {
     effect: string;
     target: string;
