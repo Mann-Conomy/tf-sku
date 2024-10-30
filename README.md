@@ -8,6 +8,8 @@ A static Node.js class for formatting Team Fortress 2 items into strings or JSON
 [![GitHub actions](https://img.shields.io/github/actions/workflow/status/Mann-Conomy/tf-sku/test.yml?branch=main&style=flat-square&logo=github&label=test)](https://github.com/Mann-Conomy/tf-sku/blob/main/.github/workflows/test.yml)
 [![GitHub license](https://img.shields.io/github/license/Mann-Conomy/tf-sku?style=flat-square&logo=github)](https://github.com/Mann-Conomy/tf-sku/blob/main/LICENSE)
 
+## Installation
+
 Using [npm](https://www.npmjs.com/package/@mann-conomy/tf-sku):
 
 ```bash
